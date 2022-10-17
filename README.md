@@ -1,3 +1,3 @@
-#Battleship
+# Battleship
 
-##Alastair Lloyd & Nigel Aung-Myint
+## Alastair Lloyd & Nigel Aung-Myint
