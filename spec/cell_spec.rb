@@ -7,9 +7,9 @@ describe Cell do
     it 'exists' do
       cell = Cell.new("B4")
 
-      expect(cell).to be_a(Cell)  
+      expect(cell).to be_a(Cell)
     end
-    
+
     it 'can have different coordinates' do
       cell_1 = Cell.new("B4")
       cell_2 = Cell.new("C2")
@@ -24,8 +24,8 @@ describe Cell do
       cell_1 = Cell.new("B4")
 
       expect(cell_1.ship).to eq nil
-    end  
-  end 
+    end
+  end
 
   describe '#empty?' do
     it 'will return true if cell is clear' do
@@ -52,6 +52,26 @@ describe Cell do
       cell_1.place_ship(cruiser)
 
       expect(cell_1.ship).to eq cruiser
+    end
+  end
+
+  describe '#fired_upon?' do
+    it 'will return false' do
+      cell = Cell.new("B4")
+
+      expect(cell.fired_upon?).to be false
+    end
+  end
+
+  describe '#fire_upon' do
+    it 'can hit a ship' do
+      cell = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+
+      cell.place_ship(cruiser)
+      cell.fire_upon
+
+      expect(cell.ship.health).to eq 2
     end
   end
 
