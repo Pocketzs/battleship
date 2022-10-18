@@ -118,5 +118,18 @@ describe Cell do
       expect(cell_1.render).to eq "X"
     end
 
+    it 'can turn on optional' do
+      cell_1 = Cell.new("B4")
+      cell_1.render(true)
+
+    end
+
+    it 'shows ship if optional on' do
+      cell_1 = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+      cell_1.place_ship(cruiser)
+
+      expect(cell_1.render(true)).to eq "S"
+    end
   end
 end
