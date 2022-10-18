@@ -3,4 +3,16 @@ class Ship
     @ship_name = ship_name
     @length = length
   end
+
+  def name
+    "Cruiser"
+  end
+
+  def length
+    3
+  end
+
+  def health
+    3
+  end
 end
