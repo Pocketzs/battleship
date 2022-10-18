@@ -107,5 +107,16 @@ describe Cell do
 
       expect(cell_1.render).to eq "H"
     end
+
+    it 'shows if ship was sunk' do
+      cell_1 = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+
+      cell_1.place_ship(cruiser)
+      3.times {cell_1.fire_upon}
+
+      expect(cell_1.render).to eq "X"
+    end
+
   end
 end

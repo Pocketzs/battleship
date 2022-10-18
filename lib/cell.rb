@@ -37,6 +37,8 @@ class Cell
       "."
     elsif fired_upon == true && ship == nil
       "M"
+    elsif fired_upon == true && ship.sunk?
+      "X"
     elsif fired_upon == true && empty? == false
       "H"
     end
