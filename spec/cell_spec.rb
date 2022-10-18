@@ -56,10 +56,18 @@ describe Cell do
   end
 
   describe '#fired_upon?' do
-    it 'will return false' do
+    it 'defaults false' do
       cell = Cell.new("B4")
 
       expect(cell.fired_upon?).to be false
+    end
+
+    it 'is true when fired upon' do
+      cell = Cell.new("B4")
+
+      cell.fire_upon
+
+      expect(cell.fired_upon?).to be true
     end
   end
 
