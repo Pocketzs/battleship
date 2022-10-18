@@ -28,10 +28,19 @@ describe Cell do
   end 
 
   describe '#empty?' do
-    it 'will return if ship nil' do
+    it 'will return true if cell is clear' do
       cell_1 = Cell.new("B4")
 
       expect(cell_1.empty?).to be true
+    end
+
+    it 'will return false if cell has ship' do
+      cell = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+
+      cell.place_ship(cruiser)
+
+      expect(cell.empty?).to be false
     end
   end
 
@@ -44,8 +53,6 @@ describe Cell do
 
       expect(cell_1.ship).to eq cruiser
     end
-
-
   end
 
 end
