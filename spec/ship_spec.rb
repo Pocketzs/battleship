@@ -49,4 +49,33 @@ RSpec.describe Ship do
     end
   end
 
+  describe '#sunk?' do
+    it 'starts with the default attribute sunk to be false' do
+      submarine = Ship.new("Submarine", 2)
+
+      expect(submarine.sunk?).to be false
+    end
+  end
+
+  describe '#hit' do
+    it 'reduces health by one' do
+      submarine = Ship.new("Submarine", 2)
+
+      submarine.hit
+
+      expect(submarine.health).to eq 1
+    end
+
+    it 'will not reduce health if ship is sunk' do
+      submarine = Ship.new("Submarine", 2)
+
+      2.times {submarine.hit}
+      expect(submarine.health).to eq 0
+
+      submarine.hit
+
+      expect(submarine.health).to eq 0
+    end
+  end
+
 end
