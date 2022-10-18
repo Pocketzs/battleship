@@ -83,4 +83,53 @@ describe Cell do
     end
   end
 
+  describe '#render' do
+    it 'shows cell has not been fired on' do
+      cell_1 = Cell.new("B4")
+
+      expect(cell_1.render).to eq "."
+    end
+
+    it 'shows shot was a miss' do
+      cell_1 = Cell.new("B4")
+
+      cell_1.fire_upon
+
+      expect(cell_1.render).to eq "M"
+    end
+
+    it 'shows shot was a hit' do
+      cell_1 = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+
+      cell_1.place_ship(cruiser)
+      cell_1.fire_upon
+
+      expect(cell_1.render).to eq "H"
+    end
+
+    it 'shows if ship was sunk' do
+      cell_1 = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+
+      cell_1.place_ship(cruiser)
+      3.times {cell_1.fire_upon}
+
+      expect(cell_1.render).to eq "X"
+    end
+
+    it 'can turn on optional' do
+      cell_1 = Cell.new("B4")
+      cell_1.render(true)
+
+    end
+
+    it 'shows ship if optional on' do
+      cell_1 = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+      cell_1.place_ship(cruiser)
+
+      expect(cell_1.render(true)).to eq "S"
+    end
+  end
 end

@@ -31,4 +31,19 @@ class Cell
     end
     @fired_upon = true
   end
+
+  def render(optional = false)
+    if optional == true && empty? == false
+      "S"
+    elsif fired_upon == false
+      "."
+    elsif fired_upon == true && ship == nil
+      "M"
+    elsif fired_upon == true && ship.sunk?
+      "X"
+    elsif fired_upon == true && empty? == false
+      "H"
+    end
+  end
+
 end
