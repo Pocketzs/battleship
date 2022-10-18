@@ -7,4 +7,12 @@ class Ship
   def name
     "Cruiser"
   end
+
+  def length
+    3
+  end
+
+  def health
+    3
+  end
 end
