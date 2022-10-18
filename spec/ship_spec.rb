@@ -28,7 +28,24 @@ RSpec.describe Ship do
       cruiser = Ship.new("Cruiser", 3)
 
       expect(cruiser.health).to eq 3
+    end
 
+    it 'can have different names' do
+      submarine = Ship.new("Submarine", 3)
+
+      expect(submarine.name).to eq "Submarine"
+    end
+
+    it 'can have a different length' do
+      submarine = Ship.new("Submarine", 2)
+
+      expect(submarine.length).to eq 2
+    end
+
+    it 'can have a different health' do
+      submarine = Ship.new("Submarine", 2)
+
+      expect(submarine.health).to eq 2
     end
   end
 
