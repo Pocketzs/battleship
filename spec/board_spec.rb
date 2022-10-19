@@ -41,7 +41,7 @@ describe Board do
   end
 
   describe '#valid_placement?' do
-    it 'will confirm valid ship placement' do
+    it 'will confirm confirm coordinates that match the length of the ship' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
       board.cells
