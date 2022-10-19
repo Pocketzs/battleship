@@ -39,4 +39,24 @@ describe Board do
       expect(board.valid_coordinate?("A22")).to be false
     end
   end
+
+  describe '#valid_placement?' do
+    it 'will confirm valid ship placement' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      board.cells
+
+      expect(board.valid_placement?(cruiser, ["A1","A2","A3"])).to be true
+      expect(board.valid_placement?(cruiser, ["A1","A2"])).to be false
+    end
+
+    it 'will confirm consecutive coordinates' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      board.cells
+
+      expect(board.valid_placement?(cruiser, ["A1","A2","A4"])).to be false
+      # expect(board.valid_placement?(cruiser, ["A1","A2"])).to be false
+    end
+  end
 end
