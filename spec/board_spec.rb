@@ -50,16 +50,38 @@ describe Board do
       expect(board.valid_placement?(cruiser, ["A1","A2"])).to be false
     end
 
-    it 'will confirm consecutive coordinates' do
+    it 'will confirm consecutive coordinates in either ascending or descending order' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      board.cells
+
+      expect(board.valid_placement?(cruiser,["A3","A2","A1"])).to be true
+    end
+
+    it 'will confirm consecutive coordinates regardless of input order' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
       board.cells
 
       expect(board.valid_placement?(cruiser,["A1","A3","A2"])).to be true
-      expect(board.valid_placement?(cruiser,["A3","A2","A1"])).to be true
+    end
+
+    it 'will return false for coordinates that are not consecutive' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      board.cells
 
       expect(board.valid_placement?(cruiser, ["A1","A2","A4"])).to be false
-      # expect(board.valid_placement?(cruiser, ["A1","A2"])).to be false
+    end
+
+    it 'will confirm consecutive coordinates placed horizontally or vertically' do
+      board = Board.new
+      cruiser_1 = Ship.new("Cruiser", 3)
+      cruiser_2 = Ship.new("Cruiser", 3)
+      board.cells
+
+      expect(board.valid_placement?(cruiser_1,["A1","A2","A3"])).to be true
+      expect(board.valid_placement?(cruiser_2,["A1","B1","C1"])).to be true
     end
   end
 end
