@@ -66,7 +66,7 @@ describe Board do
       expect(board.valid_placement?(cruiser,["A1","A3","A2"])).to be true
     end
 
-    it 'will return false for coordinates that are not consecutive' do
+    it 'will not allow for coordinates that are not consecutive' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
       board.cells
@@ -82,6 +82,14 @@ describe Board do
 
       expect(board.valid_placement?(cruiser_1,["A1","A2","A3"])).to be true
       expect(board.valid_placement?(cruiser_2,["A1","B1","C1"])).to be true
+    end
+
+    it 'will not allow diagonal placement' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      board.cells
+
+      expect(board.valid_placement?(cruiser,["A1","B2","C3"])).to be false
     end
   end
 end
