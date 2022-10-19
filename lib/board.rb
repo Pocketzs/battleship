@@ -9,4 +9,30 @@ class Board
     game_board
   end
 
+  def valid_coordinate?(coordinate)
+    if cells.key?(coordinate)
+      true
+    else
+      false
+    end
+  end
+
+  def valid_placement?(ship, coordinates)
+    # if time, allow valid coordinates to be passed out of order
+    length_check = ship.length == coordinates.length
+    row_numbers = coordinates.map do |coordinate|
+      coordinate.scan(/\d+/).join.to_f
+    end
+    length = row_numbers.length
+    min = row_numbers.min
+    max = row_numbers.max
+    sum_1 = row_numbers.reduce(:+)
+    sum_2 = length*(min + max)/2
+    consecutive_check = sum_1 == sum_2
+    if length_check && consecutive_check
+      true
+    else
+      false
+    end
+  end
 end
