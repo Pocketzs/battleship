@@ -25,7 +25,18 @@ describe Board do
     it 'has cell objects' do
       board = Board.new
 
-      expect(board.cells.values_at("A1")[0]).to be_a(Cell)   
+      expect(board.cells.values_at("A1")[0]).to be_a(Cell)
+    end
+  end
+
+  describe '#valid_coordinate?' do
+    it 'will confirm if coordinate on board' do
+      board = Board.new
+
+      board.cells
+
+      expect(board.valid_coordinate?("A1")).to be true
+      expect(board.valid_coordinate?("A22")).to be false
     end
   end
 end

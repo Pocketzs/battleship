@@ -9,4 +9,12 @@ class Board
     game_board
   end
 
+  def valid_coordinate?(coordinate)
+    if cells.key?(coordinate)
+      true
+    else
+      false
+    end
+  end
+
 end
