@@ -61,17 +61,31 @@ class Board
     # the ability to input coordinates out of ascending or descending order
     # even if the cells are right next to each other on the grid
     # consecutive_check allows for this and we think it should be a feature
-    if length_check(ship, coordinates) && consecutive_check(ship, coordinates)
+    if length_check(ship, coordinates) && consecutive_check(ship, coordinates) && overlap_check(ship, coordinates)
       true
     else
       false
     end
   end
 
+  def overlap_check(ship, coordinates)
+    ships = coordinates.map do |coordinate|
+      cells[coordinate].ship
+    end
+    if ships.all? {|ship|  ship == nil}
+      true
+    else
+      false
+    end
+  end
+  
+
+
+
   def place(ship, coordinates)
     if valid_placement?(ship, coordinates)
       coordinates.each do |coordinate|
-      @game_board[coordinate].place_ship(ship)
+      cells[coordinate].place_ship(ship)
       end
     end
   end
