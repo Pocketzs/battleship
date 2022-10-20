@@ -79,15 +79,37 @@ class Board
     end
   end
   
-
-
-
   def place(ship, coordinates)
     if valid_placement?(ship, coordinates)
       coordinates.each do |coordinate|
       cells[coordinate].place_ship(ship)
       end
     end
+  end
+
+  def render(optional = false)
+    render_arr = cells.map do |name, object|
+      object.render(optional)
+    end
+
+    a_render = render_arr.slice(0..3)
+    b_render = render_arr.slice(4..7)
+    c_render = render_arr.slice(8..11)
+    d_render = render_arr.slice(12..15)
+
+    a_string = "A , \n"
+    b_string = "B , \n"
+    c_string = "C , \n"
+    d_string = "D , \n"
+
+    a_row = a_string.gsub(",", a_render.join(" "))
+    b_row = b_string.gsub(",", b_render.join(" "))
+    c_row = c_string.gsub(",", c_render.join(" "))
+    d_row = d_string.gsub(",", d_render.join(" "))
+
+    first_row = "  1 2 3 4 \n" 
+    board = first_row + a_row + b_row + c_row + d_row
+    board
   end
 end
 
