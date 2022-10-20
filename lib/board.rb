@@ -61,7 +61,7 @@ class Board
     # the ability to input coordinates out of ascending or descending order
     # even if the cells are right next to each other on the grid
     # consecutive_check allows for this and we think it should be a feature
-    if length_check(ship, coordinates) && consecutive_check(ship, coordinates)
+    if length_check(ship, coordinates) && consecutive_check(ship, coordinates) && overlap_check(ship, coordinates)
       true
     else
       false
