@@ -6,7 +6,7 @@ class Board
   end
 
   def cells
-    if game_board == nil 
+    if game_board == nil
       coordinates_array = ["A1","A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
       game_board = Hash.new
       coordinates_array.each do |coordinate|
@@ -18,19 +18,25 @@ class Board
     end
   end
 
-    def valid_coordinate?(coordinate)
-     if cells.key?(coordinate)
-       true
-     else
-       false
+  def valid_coordinate?(coordinate)
+    cells.key?(coordinate)
+  end
+
+  def valid_coordinates_check?(ship,coordinates)
+    coordinates.all? do |coordinate|
+      valid_coordinate?(coordinate)
     end
   end
 
-  def length_check(ship, coordinates)
+  def length_check?(ship, coordinates)
     ship.length == coordinates.length
   end
 
-  def consecutive_check(ship, coordinates)
+  def unique_coordinates_check?(ship, coordinates)
+    coordinates.uniq.length > 1
+  end
+
+  def consecutive_check?(ship, coordinates)
     numbers = coordinates.map do |coordinate|
       coordinate.scan(/\d+/).join.to_f
     end
@@ -107,9 +113,8 @@ class Board
     c_row = c_string.gsub(",", c_render.join(" "))
     d_row = d_string.gsub(",", d_render.join(" "))
 
-    first_row = "  1 2 3 4 \n" 
+    first_row = "  1 2 3 4 \n"
     board = first_row + a_row + b_row + c_row + d_row
     board
   end
 end
-
