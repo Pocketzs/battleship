@@ -68,10 +68,24 @@ class Board
     end
   end
 
+  def overlap_check(ship, coordinates)
+    ships = coordinates.map do |coordinate|
+      cells[coordinate].ship
+    end
+    if ships.all? {|ship|  ship == nil}
+      true
+    else
+      false
+    end
+  end
+  
+
+
+
   def place(ship, coordinates)
     if valid_placement?(ship, coordinates)
       coordinates.each do |coordinate|
-      @game_board[coordinate].place_ship(ship)
+      cells[coordinate].place_ship(ship)
       end
     end
   end
