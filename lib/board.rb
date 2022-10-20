@@ -62,34 +62,36 @@ class Board
     end
   end
 
+  def overlap_check?(ship, coordinates)
+    ships = coordinates.map do |coordinate|
+      cells[coordinate].ship
+    end
+    ships.all? {|ship|  ship == nil}
+  end
+
+  def all_valid_checks?(ship,coordinates)
+    length_check?(ship,coordinates) &&
+    consecutive_check?(ship,coordinates) &&
+    overlap_check?(ship,coordinates) &&
+    unique_coordinates_check?(ship,coordinates) &&
+    valid_coordinates_check?(ship,coordinates)
+  end
+
   def valid_placement?(ship, coordinates)
-    # later in the interaction pattern it's stated to not desire
-    # the ability to input coordinates out of ascending or descending order
-    # even if the cells are right next to each other on the grid
-    # consecutive_check allows for this and we think it should be a feature
-    if length_check(ship, coordinates) && consecutive_check(ship, coordinates) && overlap_check(ship, coordinates)
+    if all_valid_checks?(ship,coordinates)
       true
     else
       false
     end
   end
 
-  def overlap_check(ship, coordinates)
-    ships = coordinates.map do |coordinate|
-      cells[coordinate].ship
-    end
-    if ships.all? {|ship|  ship == nil}
-      true
-    else
-      false
-    end
-  end
-  
   def place(ship, coordinates)
     if valid_placement?(ship, coordinates)
       coordinates.each do |coordinate|
       cells[coordinate].place_ship(ship)
       end
+    else
+      "Invalid Ship Placement"
     end
   end
 
