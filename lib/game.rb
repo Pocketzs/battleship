@@ -3,25 +3,25 @@ require './lib/cell'
 require './lib/board'
 
 class Game
-  attr_reader :computer_board
+  attr_reader :computer_board, :player_board
   def initialize
     @computer_board = Board.new
+    @player_board = Board.new
      #may need may not......
   end
 
-  def player1 #thought it would be helpful to have a method to call on when user inputs rather than keep writing same code.
-    player1 = gets.chomp.downcase
+  def player_1 #thought it would be helpful to have a method to call on when user inputs rather than keep writing same code.
+    player_1 = gets.chomp
   end
 
   def game_menu
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit"
-    input = player1
+    input = player_1
 
-    if input == "p"
+    if input.downcase == "p"
       run_game
-      puts @computer_board.render(true)
-    elsif input == "q"
+    elsif input.downcase == "q"
       puts "Thanks for playing" #goodbye statement or similar
     else
       puts "Invalid please re enter choice" #or something similar
@@ -30,7 +30,9 @@ class Game
 
   def run_game
     @computer_board.cells
+    @player_board.cells
     computer_ship_placement
+    player_ship_placement
   end
 
   def computer_ship_placement
@@ -48,6 +50,34 @@ class Game
     end
     @computer_board.place(submarine,coordinates_2)
   end
+
+  def player_ship_placement
+    puts "I have laid out my ships on the grid."
+    puts "You now need to lay out your two ships."
+    puts "The Cruiser is three units long and the Submarine is two units long."
+
+    puts @player_board.render(true)
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    puts "Enter the squares for the Cruiser (3 spaces):"
+    input = player_1
+    coordinates = input.split
+    @player_board.place(cruiser, coordinates)
+
+    puts @player_board.render(true)
+    puts "Enter the squares for the Submarine (2 spaces):"
+    input = player_1
+    coordinates = input.split
+    @player_board.place(submarine, coordinates)
+    puts @player_board.render(true)
+  end
+
+
+
+
+
+
 
 
 end
