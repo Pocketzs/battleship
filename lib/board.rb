@@ -49,9 +49,13 @@ class Board
     numbers_max = numbers.max
     letters_min = letters.min
     letters_max = letters.max
-    numbers_sum_1 = numbers.reduce(:+)
+    numbers_sum_1 = numbers.reduce(0) do |sum, number|
+      sum + number
+    end
     numbers_sum_2 = numbers_length*(numbers_min + numbers_max)/2
-    letters_sum_1 = letters.reduce(:+)
+    letters_sum_1 = letters.reduce(0) do |sum, number|
+      sum + number
+    end
     letters_sum_2 = letters_length*(letters_min + letters_max)/2
     # this famous formula proved by Gauss is an equivalency statment that
     # is only true for a set of consecutive natural numbers
