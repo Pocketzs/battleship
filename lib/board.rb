@@ -59,6 +59,9 @@ class Board
     # letters_sum_2 = letters_length*(letters_min + letters_max)/2
     # this famous formula proved by Gauss is an equivalency statment that
     # is only true for a set of consecutive natural numbers
+
+    # Above formula does not work for numbers sets of length 2
+    
     numbers_min = numbers.min - 1
     numbers_max = numbers.max
     letters_min = letters.min - 1
