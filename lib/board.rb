@@ -6,7 +6,7 @@ class Board
   end
 
   def cells
-    if game_board == nil 
+    if game_board == nil
       coordinates_array = ["A1","A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
       game_board = Hash.new
       coordinates_array.each do |coordinate|
@@ -18,19 +18,25 @@ class Board
     end
   end
 
-    def valid_coordinate?(coordinate)
-     if cells.key?(coordinate)
-       true
-     else
-       false
+  def valid_coordinate?(coordinate)
+    cells.key?(coordinate)
+  end
+
+  def valid_coordinates_check?(ship,coordinates)
+    coordinates.all? do |coordinate|
+      valid_coordinate?(coordinate)
     end
   end
 
-  def length_check(ship, coordinates)
+  def length_check?(ship, coordinates)
     ship.length == coordinates.length
   end
 
-  def consecutive_check(ship, coordinates)
+  def unique_coordinates_check?(ship, coordinates)
+    coordinates.uniq.length > 1
+  end
+
+  def consecutive_check?(ship, coordinates)
     numbers = coordinates.map do |coordinate|
       coordinate.scan(/\d+/).join.to_f
     end
@@ -43,9 +49,13 @@ class Board
     numbers_max = numbers.max
     letters_min = letters.min
     letters_max = letters.max
-    numbers_sum_1 = numbers.reduce(:+)
+    numbers_sum_1 = numbers.reduce(0) do |sum, number|
+      sum + number
+    end
     numbers_sum_2 = numbers_length*(numbers_min + numbers_max)/2
-    letters_sum_1 = letters.reduce(:+)
+    letters_sum_1 = letters.reduce(0) do |sum, number|
+      sum + number
+    end
     letters_sum_2 = letters_length*(letters_min + letters_max)/2
     # this famous formula proved by Gauss is an equivalency statment that
     # is only true for a set of consecutive natural numbers
@@ -56,34 +66,36 @@ class Board
     end
   end
 
+  def overlap_check?(ship, coordinates)
+    ships = coordinates.map do |coordinate|
+      cells[coordinate].ship
+    end
+    ships.all? {|ship|  ship == nil}
+  end
+
+  def all_valid_checks?(ship,coordinates)
+    length_check?(ship,coordinates) &&
+    consecutive_check?(ship,coordinates) &&
+    overlap_check?(ship,coordinates) &&
+    unique_coordinates_check?(ship,coordinates) &&
+    valid_coordinates_check?(ship,coordinates)
+  end
+
   def valid_placement?(ship, coordinates)
-    # later in the interaction pattern it's stated to not desire
-    # the ability to input coordinates out of ascending or descending order
-    # even if the cells are right next to each other on the grid
-    # consecutive_check allows for this and we think it should be a feature
-    if length_check(ship, coordinates) && consecutive_check(ship, coordinates) && overlap_check(ship, coordinates)
+    if all_valid_checks?(ship,coordinates)
       true
     else
       false
     end
   end
 
-  def overlap_check(ship, coordinates)
-    ships = coordinates.map do |coordinate|
-      cells[coordinate].ship
-    end
-    if ships.all? {|ship|  ship == nil}
-      true
-    else
-      false
-    end
-  end
-  
   def place(ship, coordinates)
     if valid_placement?(ship, coordinates)
       coordinates.each do |coordinate|
       cells[coordinate].place_ship(ship)
       end
+    else
+      "Invalid Ship Placement"
     end
   end
 
@@ -107,9 +119,8 @@ class Board
     c_row = c_string.gsub(",", c_render.join(" "))
     d_row = d_string.gsub(",", d_render.join(" "))
 
-    first_row = "  1 2 3 4 \n" 
+    first_row = "  1 2 3 4 \n"
     board = first_row + a_row + b_row + c_row + d_row
     board
   end
 end
-

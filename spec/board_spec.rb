@@ -97,14 +97,14 @@ describe Board do
     it 'allows us to place a ship on the board' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
-      
+
       board.place(cruiser, ["A1", "A2", "A3"])
 
       cell_1 = board.cells["A1"]
       cell_2 = board.cells["A2"]
       cell_3 = board.cells["A3"]
-                
-      expect(cell_1.ship).to eq cruiser 
+
+      expect(cell_1.ship).to eq cruiser
       expect(cell_2.ship).to eq cruiser
       expect(cell_3.ship).to eq cruiser
     end
@@ -112,7 +112,7 @@ describe Board do
     it 'checks to see if the same ship is in consecutive cells' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
-      
+
       board.place(cruiser, ["A1", "A2", "A3"])
 
       cell_1 = board.cells["A1"]
@@ -126,20 +126,34 @@ describe Board do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
-      
+
       board.place(cruiser, ["A1", "A2", "A3"])
-      
+
       expect(board.valid_placement?(submarine, ["A1", "B1"])).to be false
+    end
+
+    it 'checks for unique coordinates' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+
+      expect(board.valid_placement?(cruiser, ["A1", "A1", "A1"])).to be false
+    end
+
+    it 'checks for valid coordinates' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+
+      expect(board.valid_placement?(cruiser, ["A1", "A2", "A22"])).to be false
     end
   end
 
   describe "#render" do
-    it 'return the board' do
+    it 'returns the board' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
 
       board.place(cruiser, ["A1", "A2", "A3"])
-      
+
       expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     end
   end
