@@ -12,19 +12,21 @@ class Game
 
   def player_1 #thought it would be helpful to have a method to call on when user inputs rather than keep writing same code.
     player_1 = gets.chomp
+    player_1.upcase
   end
 
   def game_menu
     puts "Welcome to BATTLESHIP"
-    puts "Enter p to play. Enter q to quit"
+    puts "Enter P to play. Enter Q to quit"
     input = player_1
-
-    if input.downcase == "p"
+    until input == "P" || input == "Q"
+      puts "Invalid input.  Please enter P to play or Q to quit."
+      input = player_1
+    end
+    if input == "P"
       run_game
-    elsif input.downcase == "q"
+    elsif input == "Q"
       puts "Thanks for playing" #goodbye statement or similar
-    else
-      puts "Invalid please re enter choice" #or something similar
     end
   end
 
