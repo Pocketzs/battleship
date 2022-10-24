@@ -46,4 +46,11 @@ class Cell
     end
   end
 
+  def print_render
+    if render == "M"
+      "Miss"
+    elsif render == "H"
+      "Hit"
+    end
+  end  
 end
