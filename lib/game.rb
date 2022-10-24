@@ -142,6 +142,7 @@ class Game
   end
 
   def computer_turn
+    system 'clear'
     random_coordinate = @player_board.cells.values.sample
     until random_coordinate.fired_upon? == false
       random_coordinate = @player_board.cells.values.sample
