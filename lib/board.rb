@@ -89,11 +89,14 @@ class Board
   end
 
   def all_valid_checks?(ship,coordinates)
-    length_check?(ship,coordinates) &&
-    consecutive_check?(ship,coordinates) &&
-    overlap_check?(ship,coordinates) &&
-    unique_coordinates_check?(ship,coordinates) &&
-    valid_coordinates_check?(ship,coordinates)
+    if valid_coordinates_check?(ship,coordinates)
+      length_check?(ship,coordinates) &&
+      consecutive_check?(ship,coordinates) &&
+      overlap_check?(ship,coordinates) &&
+      unique_coordinates_check?(ship,coordinates) 
+    else
+      false
+    end
   end
 
   def valid_placement?(ship, coordinates)
