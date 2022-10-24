@@ -114,6 +114,7 @@ class Game
     cell = @computer_board.cells[coordinate]
     cell.fire_upon
     puts "=============COMPUTER BOARD============="
+    puts "Your shot on #{coordinate} was a #{cell.print_render}"
     puts @computer_board.render
     puts "==============PLAYER BOARD=============="
     puts @player_board.render(true)
@@ -136,6 +137,7 @@ class Game
     puts "=============COMPUTER BOARD============="
     puts @computer_board.render
     puts "==============PLAYER BOARD=============="
+    puts "CPU shot on #{random_coordinate.coordinate} was a #{random_coordinate.print_render}"
     puts @player_board.render(true)
   end
 end
