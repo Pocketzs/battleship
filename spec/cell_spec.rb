@@ -132,4 +132,19 @@ describe Cell do
       expect(cell_1.render(true)).to eq "S"
     end
   end
+
+  describe "#print_render" do
+    it 'prints the outcome of the chosen coordinate' do
+      cell_1 = Cell.new("B4")
+      cell_2 = Cell.new("D4")
+      cruiser = Ship.new("Cruiser", 3)
+      
+      cell_1.place_ship(cruiser)
+      cell_1.fire_upon
+      cell_2.fire_upon
+
+      expect(cell_1.print_render).to eq "Hit"
+      expect(cell_2.print_render).to eq "Miss"
+    end
+  end
 end

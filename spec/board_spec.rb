@@ -159,4 +159,33 @@ describe Board do
       expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     end
   end
+
+  describe '#all sunk?' do
+    it 'check if all the ships on the board are sunk' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
+      cell_1 = board.cells["A1"]
+      cell_2 = board.cells["A2"]
+      cell_3 = board.cells["A3"]
+      cell_4 = board.cells["B1"]
+      cell_5 = board.cells["B2"]
+      
+      board.place(cruiser, ["A1", "A2", "A3"])
+      board.place(submarine, ["B1", "B2"])
+
+      expect(board.all_sunk?).to be false
+
+      cell_1.fire_upon
+      cell_2.fire_upon
+      cell_3.fire_upon
+
+      expect(board.all_sunk?).to be false
+    
+      cell_4.fire_upon
+      cell_5.fire_upon
+      
+      expect(board.all_sunk?).to be true
+    end
+  end
 end

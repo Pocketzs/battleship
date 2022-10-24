@@ -3,19 +3,19 @@ require './lib/cell'
 require './lib/board'
 
 class Game
-  attr_reader :computer_board, :player_board
-  def initialize
-    @computer_board = Board.new
-    @player_board = Board.new
-     #may need may not......
-  end
+  
+  # def initialize
+  #   @computer_board = computer_board
+  #   @player_board = player_board
+  # end
 
-  def player_1 #thought it would be helpful to have a method to call on when user inputs rather than keep writing same code.
+  def player_1
     player_1 = gets.chomp
     player_1.upcase
   end
 
   def game_menu
+    system 'clear'
     puts "Welcome to BATTLESHIP"
     puts "Enter P to play. Enter Q to quit"
     input = player_1
@@ -26,15 +26,24 @@ class Game
     if input == "P"
       run_game
     elsif input == "Q"
-      puts "Thanks for playing" #goodbye statement or similar
+      puts "Thanks for playing"
     end
   end
 
   def run_game
+    @computer_board = Board.new
+    @player_board = Board.new
     @computer_board.cells
     @player_board.cells
     computer_ship_placement
     player_ship_placement
+    until @computer_board.all_sunk? || @player_board.all_sunk?
+      player_turn
+      if @computer_board.all_sunk? == false
+        computer_turn
+      end
+    end
+    game_end
   end
 
   def computer_ship_placement
@@ -54,6 +63,7 @@ class Game
   end
 
   def player_ship_placement
+    system 'clear'
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
     puts "The Cruiser is three units long and the Submarine is two units long."
@@ -95,11 +105,96 @@ class Game
     puts @player_board.render(true)
   end
 
+  def player_turn
+    system 'clear'
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render(true)
+    puts "==============PLAYER BOARD=============="
+    puts @player_board.render(true)
+    puts "Enter the coordinate for your shot:"
+    input = player_1
+    coordinate = input
+    until @computer_board.valid_coordinate?(coordinate)
+      puts "Please enter a valid coordinate:"
+      input = player_1
+      coordinate = input
+    end
+    until @computer_board.cells[coordinate].fired_upon? == false
+      puts "You have already fired upon that coordiante, please choose again"
+      input = player_1
+      coordinate = input
+    end
+    cell = @computer_board.cells[coordinate]
+    cell.fire_upon
+    system 'clear'
+    puts "=============COMPUTER BOARD============="
+    puts "Your shot on #{coordinate} was a #{cell.print_render}!"
+    puts ""
+    puts @computer_board.render
+    if cell.ship
+      if cell.ship.sunk?
+        puts ""
+        puts "You sunk their #{cell.ship.name}!"
+      end
+    end
+    puts "==============PLAYER BOARD=============="
+    puts @player_board.render(true)
+    puts ""
+    puts "Enter to proceed"
+    input = player_1
+    until input == ""
+      puts "Hit enter"
+      input = player_1
+    end
+  end
 
+  def computer_turn
+    system 'clear'
+    random_coordinate = @player_board.cells.values.sample
+    until random_coordinate.fired_upon? == false
+      random_coordinate = @player_board.cells.values.sample
+    end
+    
+    random_coordinate.fire_upon
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render
+    puts "==============PLAYER BOARD=============="
+    puts "CPU shot on #{random_coordinate.coordinate} was a #{random_coordinate.print_render}!"
+    puts ""
+    puts @player_board.render(true)
+    if random_coordinate.ship
+      if random_coordinate.ship.sunk?
+        puts ""
+        puts "CPU sunk your #{random_coordinate.ship.name}!"
+      end
+    end
+    puts ""
+    puts "Enter to proceed"
+    input = player_1
+    until input == ""
+      puts "Hit enter"
+      input = player_1
+    end
+  end
 
-
-
-
-
-
+  def game_end
+    system 'clear'
+    if @computer_board.all_sunk?
+      puts "Congratulations, you WON!"
+    elsif @player_board.all_sunk?
+      puts "You've lost!"
+    end
+    puts "Play again?"
+    puts "Type P or Q"
+    input = player_1
+    until input == "P" || input == "Q"
+      puts "Invalid input.  Please enter P to play or Q to quit."
+      input = player_1
+    end
+    if input == "P"
+      run_game
+    elsif input == "Q"
+      puts "Thanks for playing"
+    end
+  end
 end
