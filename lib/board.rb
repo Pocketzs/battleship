@@ -141,4 +141,17 @@ class Board
     board = first_row + a_row + b_row + c_row + d_row
     board
   end
+
+  def all_sunk?
+    ship_locations = cells.values.select do |cell|
+      cell.ship
+    end
+    ships = ship_locations.map do |cell|
+      cell.ship
+    end
+    ships.all? do |ship|
+      ship.sunk?
+    end
+  end
+
 end
