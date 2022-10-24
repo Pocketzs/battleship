@@ -38,6 +38,7 @@ class Game
     until @computer_board.all_sunk? || @player_board.all_sunk?
       player_turn
       computer_turn
+    puts "The winner"
     end
 
   end
@@ -114,8 +115,14 @@ class Game
       input = player_1
       coordinate = input
     end
+    until @computer_board.cells[coordinate].fired_upon? == false
+      puts "You have already fired upon that coordiante, please choose again"
+      input = player_1
+      coordinate = input
+    end
     cell = @computer_board.cells[coordinate]
     cell.fire_upon
+    system 'clear'
     puts "=============COMPUTER BOARD============="
     puts "Your shot on #{coordinate} was a #{cell.print_render}"
     puts @computer_board.render
