@@ -35,8 +35,11 @@ class Game
     @player_board.cells
     computer_ship_placement
     player_ship_placement
-    player_turn
-    computer_turn
+    until @computer_board.all_sunk? || @player_board.all_sunk?
+      player_turn
+      computer_turn
+    end
+
   end
 
   def computer_ship_placement
@@ -100,7 +103,7 @@ class Game
   def player_turn
     system 'clear'
     puts "=============COMPUTER BOARD============="
-    puts @computer_board.render
+    puts @computer_board.render(true)
     puts "==============PLAYER BOARD=============="
     puts @player_board.render(true)
     puts "Enter the coordinate for your shot:"
@@ -116,18 +119,22 @@ class Game
     puts "=============COMPUTER BOARD============="
     puts "Your shot on #{coordinate} was a #{cell.print_render}"
     puts @computer_board.render
+    if cell.ship
+      if cell.ship.sunk?
+        puts "You sunk their #{cell.ship.name}"
+      end
+    end
     puts "==============PLAYER BOARD=============="
     puts @player_board.render(true)
+    puts "Hit enter to proceed"
+    input = player_1
+    until input == ""
+      puts "Hit enter"
+      input = player_1
+    end
   end
 
   def computer_turn
-    puts "The computer will now take its shot. Are you ready?"
-    input = player_1
-    until input == "READY"
-      puts "Type ready"
-      input = player_1
-    end
-
     random_coordinate = @player_board.cells.values.sample
     until random_coordinate.fired_upon? == false
       random_coordinate = @player_board.cells.values.sample
@@ -139,5 +146,12 @@ class Game
     puts "==============PLAYER BOARD=============="
     puts "CPU shot on #{random_coordinate.coordinate} was a #{random_coordinate.print_render}"
     puts @player_board.render(true)
+
+    puts "Hit enter to proceed"
+    input = player_1
+    until input == ""
+      puts "Hit enter"
+      input = player_1
+    end
   end
 end
