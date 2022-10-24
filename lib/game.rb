@@ -35,6 +35,8 @@ class Game
     @player_board.cells
     computer_ship_placement
     player_ship_placement
+    player_turn
+    computer_turn
   end
 
   def computer_ship_placement
@@ -95,11 +97,45 @@ class Game
     puts @player_board.render(true)
   end
 
+  def player_turn
+    system 'clear'
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @player_board.render(true)
+    puts "Enter the coordinate for your shot:"
+    input = player_1
+    coordinate = input
+    until @computer_board.valid_coordinate?(coordinate)
+      puts "Please enter a valid coordinate:"
+      input = player_1
+      coordinate = input
+    end
+    cell = @computer_board.cells[coordinate]
+    cell.fire_upon
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @player_board.render(true)
+  end
 
+  def computer_turn
+    puts "The computer will now take its shot. Are you ready?"
+    input = player_1
+    until input == "READY"
+      puts "Type ready"
+      input = player_1
+    end
 
-
-
-
-
-
+    random_coordinate = @player_board.cells.values.sample
+    until random_coordinate.fired_upon? == false
+      random_coordinate = @player_board.cells.values.sample
+    end
+    
+    random_coordinate.fire_upon
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @player_board.render(true)
+  end
 end
