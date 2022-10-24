@@ -3,19 +3,19 @@ require './lib/cell'
 require './lib/board'
 
 class Game
-  attr_reader :computer_board, :player_board
-  def initialize
-    @computer_board = Board.new
-    @player_board = Board.new
-     #may need may not......
-  end
+  
+  # def initialize
+  #   @computer_board = computer_board
+  #   @player_board = player_board
+  # end
 
-  def player_1 #thought it would be helpful to have a method to call on when user inputs rather than keep writing same code.
+  def player_1
     player_1 = gets.chomp
     player_1.upcase
   end
 
   def game_menu
+    system 'clear'
     puts "Welcome to BATTLESHIP"
     puts "Enter P to play. Enter Q to quit"
     input = player_1
@@ -26,11 +26,13 @@ class Game
     if input == "P"
       run_game
     elsif input == "Q"
-      puts "Thanks for playing" #goodbye statement or similar
+      puts "Thanks for playing"
     end
   end
 
   def run_game
+    @computer_board = Board.new
+    @player_board = Board.new
     @computer_board.cells
     @player_board.cells
     computer_ship_placement
@@ -61,6 +63,7 @@ class Game
   end
 
   def player_ship_placement
+    system 'clear'
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
     puts "The Cruiser is three units long and the Submarine is two units long."
@@ -125,16 +128,19 @@ class Game
     cell.fire_upon
     system 'clear'
     puts "=============COMPUTER BOARD============="
-    puts "Your shot on #{coordinate} was a #{cell.print_render}"
+    puts "Your shot on #{coordinate} was a #{cell.print_render}!"
+    puts ""
     puts @computer_board.render
     if cell.ship
       if cell.ship.sunk?
-        puts "You sunk their #{cell.ship.name}"
+        puts ""
+        puts "You sunk their #{cell.ship.name}!"
       end
     end
     puts "==============PLAYER BOARD=============="
     puts @player_board.render(true)
-    puts "Hit enter to proceed"
+    puts ""
+    puts "Enter to proceed"
     input = player_1
     until input == ""
       puts "Hit enter"
@@ -153,10 +159,17 @@ class Game
     puts "=============COMPUTER BOARD============="
     puts @computer_board.render
     puts "==============PLAYER BOARD=============="
-    puts "CPU shot on #{random_coordinate.coordinate} was a #{random_coordinate.print_render}"
+    puts "CPU shot on #{random_coordinate.coordinate} was a #{random_coordinate.print_render}!"
+    puts ""
     puts @player_board.render(true)
-
-    puts "Hit enter to proceed"
+    if random_coordinate.ship
+      if random_coordinate.ship.sunk?
+        puts ""
+        puts "CPU sunk your #{random_coordinate.ship.name}!"
+      end
+    end
+    puts ""
+    puts "Enter to proceed"
     input = player_1
     until input == ""
       puts "Hit enter"
@@ -165,10 +178,11 @@ class Game
   end
 
   def game_end
+    system 'clear'
     if @computer_board.all_sunk?
       puts "Congratulations, you WON!"
     elsif @player_board.all_sunk?
-      puts "You've lost"
+      puts "You've lost!"
     end
     puts "Play again?"
     puts "Type P or Q"
@@ -178,13 +192,9 @@ class Game
       input = player_1
     end
     if input == "P"
-      @computer_board = Board.new
-      @player_board = Board.new
       run_game
     elsif input == "Q"
       puts "Thanks for playing"
     end
   end
-  
-
 end
