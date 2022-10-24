@@ -37,10 +37,11 @@ class Game
     player_ship_placement
     until @computer_board.all_sunk? || @player_board.all_sunk?
       player_turn
-      computer_turn
-    puts "The winner"
+      if @computer_board.all_sunk? == false
+        computer_turn
+      end
     end
-
+    game_end
   end
 
   def computer_ship_placement
@@ -162,4 +163,28 @@ class Game
       input = player_1
     end
   end
+
+  def game_end
+    if @computer_board.all_sunk?
+      puts "Congratulations, you WON!"
+    elsif @player_board.all_sunk?
+      puts "You've lost"
+    end
+    puts "Play again?"
+    puts "Type P or Q"
+    input = player_1
+    until input == "P" || input == "Q"
+      puts "Invalid input.  Please enter P to play or Q to quit."
+      input = player_1
+    end
+    if input == "P"
+      @computer_board = Board.new
+      @player_board = Board.new
+      run_game
+    elsif input == "Q"
+      puts "Thanks for playing"
+    end
+  end
+  
+
 end
