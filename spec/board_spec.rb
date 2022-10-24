@@ -69,8 +69,10 @@ describe Board do
     it 'will not allow for coordinates that are not consecutive' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
       board.cells
 
+      expect(board.valid_placement?(submarine, ["B1","B3"])).to be false
       expect(board.valid_placement?(cruiser, ["A1","A2","A4"])).to be false
     end
 
