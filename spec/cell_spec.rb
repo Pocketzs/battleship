@@ -76,6 +76,7 @@ describe Cell do
       cruiser = Ship.new("Cruiser", 3)
 
       cell_2.fire_upon
+
       expect(cruiser.health).to eq 3
       expect(cell_2.fired_upon?).to be true
 
@@ -122,12 +123,6 @@ describe Cell do
       expect(cell_1.render).to eq "X"
     end
 
-    it 'can turn on optional' do
-      cell_1 = Cell.new("B4")
-      cell_1.render(true)
-
-    end
-
     it 'shows ship if optional on' do
       cell_1 = Cell.new("B4")
       cruiser = Ship.new("Cruiser", 3)
@@ -136,9 +131,11 @@ describe Cell do
       expect(cell_1.render(true)).to eq "S"
 
       cell_1.fire_upon
+
       expect(cell_1.render(true)).to eq "H"
 
       2.times {cell_1.fire_upon}
+
       expect(cell_1.render(true)).to eq "X"
     end
   end
@@ -162,6 +159,7 @@ describe Cell do
       cell_4.place_ship(cruiser)
       cell_3.fire_upon
       cell_4.fire_upon
+
       expect(cell_3.ship.health).to eq 0
       expect(cell_3.print_render).to eq "Hit"
       expect(cell_4.print_render).to eq "Hit"
