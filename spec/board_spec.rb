@@ -40,7 +40,7 @@ describe Board do
   describe '#valid_coordinate?' do
     it 'will confirm if coordinate on board' do
       board = Board.new
-
+      
       board.cells
 
       expect(board.valid_coordinate?("A1")).to be true
@@ -54,6 +54,7 @@ describe Board do
         board = Board.new
         cruiser = Ship.new("Cruiser", 3)
         submarine = Ship.new("Submarine", 2)
+        
         board.cells
   
         expect(board.valid_placement?(cruiser, ["A1","A2","A3"])).to be true
@@ -69,6 +70,7 @@ describe Board do
         board = Board.new
         cruiser = Ship.new("Cruiser", 3)
         submarine = Ship.new("Submarine", 2)
+        
         board.cells
   
         expect(board.valid_placement?(cruiser,["A3","A2","A1"])).to be true
@@ -78,6 +80,7 @@ describe Board do
       it 'will confirm consecutive coordinates regardless of input order' do
         board = Board.new
         cruiser = Ship.new("Cruiser", 3)
+       
         board.cells
   
         expect(board.valid_placement?(cruiser,["A1","A3","A2"])).to be true
@@ -87,6 +90,7 @@ describe Board do
         board = Board.new
         cruiser = Ship.new("Cruiser", 3)
         submarine = Ship.new("Submarine", 2)
+        
         board.cells
   
         expect(board.valid_placement?(submarine, ["B1","B3"])).to be false
@@ -100,6 +104,7 @@ describe Board do
         cruiser_1 = Ship.new("Cruiser", 3)
         cruiser_2 = Ship.new("Cruiser", 3)
         submarine = Ship.new("Submarine", 2)
+        
         board.cells
   
         expect(board.valid_placement?(cruiser_1,["A1","A2","A3"])).to be true
@@ -112,6 +117,7 @@ describe Board do
         board = Board.new
         cruiser = Ship.new("Cruiser", 3)
         submarine = Ship.new("Submarine", 2)
+        
         board.cells
   
         expect(board.valid_placement?(cruiser,["A1","B2","C3"])).to be false
@@ -195,6 +201,7 @@ describe Board do
       expect(board.place(cruiser, ["A1", "A2", "A33"])).to eq "Invalid Ship Placement"
 
       board.place(submarine, ["A1", "A2"])
+      
       expect(board.place(cruiser, ["A1", "A2", "A3"])).to eq "Invalid Ship Placement"
     end
   end

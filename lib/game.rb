@@ -3,11 +3,6 @@ require './lib/cell'
 require './lib/board'
 
 class Game
-  
-  # def initialize
-  #   @computer_board = computer_board
-  #   @player_board = player_board
-  # end
 
   def player_1
     player_1 = gets.chomp
@@ -78,7 +73,7 @@ class Game
 
     until @player_board.valid_placement?(cruiser, coordinates)
       puts "Invalid input.  Please enter the squares for the Cruiser (follow the example below)"
-      puts "  example coordinates: A1 A2 A3" #deliberate tab for grouping
+      puts "  example coordinates: A1 A2 A3" #deliberate tabbed in for grouping
       puts " "
       puts "Enter the squares for the Cruiser (3 spaces):"
       input = player_1
@@ -94,13 +89,12 @@ class Game
 
     until @player_board.valid_placement?(submarine, coordinates)
       puts "Invalid input.  Please enter the squares for the Submarine (follow the example below)"
-      puts "  example coordinates: B3 B4" #deliberate tab for grouping
+      puts "  example coordinates: B3 B4" #deliberate tabbed in for grouping
       puts " "
       puts "Enter the squares for the Submarine (2 spaces):"
       input = player_1
       coordinates = input.split
     end
-    # NOTES: until does not catch coordinates inputted that are not on board
     @player_board.place(submarine, coordinates)
     puts @player_board.render(true)
   end
@@ -108,7 +102,7 @@ class Game
   def player_turn
     system 'clear'
     puts "=============COMPUTER BOARD============="
-    puts @computer_board.render(true)
+    puts @computer_board.render
     puts "==============PLAYER BOARD=============="
     puts @player_board.render(true)
     puts "Enter the coordinate for your shot:"
