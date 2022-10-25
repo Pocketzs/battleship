@@ -1,8 +1,6 @@
 require 'rspec'
 require './lib/ship'
 
-
-
 RSpec.describe Ship do
   describe '#initialize' do
     it 'exists' do
@@ -16,7 +14,6 @@ RSpec.describe Ship do
 
       expect(cruiser.name).to eq "Cruiser"
     end
-
 
     it 'has a length' do
       cruiser = Ship.new("Cruiser", 3)
@@ -87,6 +84,7 @@ RSpec.describe Ship do
       submarine = Ship.new("Submarine", 2)
 
       2.times {submarine.hit}
+      
       expect(submarine.health).to eq 0
 
       submarine.hit
@@ -94,5 +92,4 @@ RSpec.describe Ship do
       expect(submarine.health).to eq 0
     end
   end
-
 end
