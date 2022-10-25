@@ -27,6 +27,14 @@ describe Board do
 
       expect(board.cells.values_at("A1")[0]).to be_a(Cell)
     end
+
+    it 'uses the same board' do
+      board = Board.new
+      game_board_1 = board.cells
+      game_board_2 = board.cells
+
+      expect(game_board_1).to eq(game_board_2)
+    end
   end
 
   describe '#valid_coordinate?' do
@@ -173,6 +181,21 @@ describe Board do
       cell_3 = board.cells["A3"]
 
       expect(cell_3.ship == cell_2.ship).to be true
+    end
+
+    it 'returns invalid placement for wrong placements' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
+
+      expect(board.place(cruiser, ["A1", "A1", "A1"])).to eq "Invalid Ship Placement"
+      expect(board.place(cruiser, ["A1", "B1"])).to eq "Invalid Ship Placement"
+      expect(board.place(cruiser, ["A1", "B2", "C3"])).to eq "Invalid Ship Placement"
+      expect(board.place(cruiser, ["A1", "A2", "A33"])).to eq "Invalid Ship Placement"
+      expect(board.place(cruiser, ["A1", "A2", "A33"])).to eq "Invalid Ship Placement"
+
+      board.place(submarine, ["A1", "A2"])
+      expect(board.place(cruiser, ["A1", "A2", "A3"])).to eq "Invalid Ship Placement"
     end
   end
 
