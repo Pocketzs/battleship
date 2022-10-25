@@ -41,57 +41,108 @@ describe Board do
   end
 
   describe '#valid_placement?' do
-    it 'will confirm confirm coordinates that match the length of the ship' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-      board.cells
+    describe '#length_check?' do
+      it 'will confirm confirm coordinates that match the length of the ship' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
+        board.cells
+  
+        expect(board.valid_placement?(cruiser, ["A1","A2","A3"])).to be true
+        expect(board.valid_placement?(cruiser, ["A1","A2"])).to be false
 
-      expect(board.valid_placement?(cruiser, ["A1","A2","A3"])).to be true
-      expect(board.valid_placement?(cruiser, ["A1","A2"])).to be false
+        expect(board.valid_placement?(submarine, ["A1","A2"])).to be true
+        expect(board.valid_placement?(submarine, ["A1"])).to be false
+      end
     end
 
-    it 'will confirm consecutive coordinates in either ascending or descending order' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-      board.cells
-
-      expect(board.valid_placement?(cruiser,["A3","A2","A1"])).to be true
+    describe '#consecutive_check?' do
+      it 'will confirm consecutive coordinates in either ascending or descending order' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
+        board.cells
+  
+        expect(board.valid_placement?(cruiser,["A3","A2","A1"])).to be true
+        expect(board.valid_placement?(submarine,["A2","A1"])).to be true
+      end
+  
+      it 'will confirm consecutive coordinates regardless of input order' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        board.cells
+  
+        expect(board.valid_placement?(cruiser,["A1","A3","A2"])).to be true
+      end
+  
+      it 'will not allow for coordinates that are not consecutive either horizontally or vertically' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
+        board.cells
+  
+        expect(board.valid_placement?(submarine, ["B1","B3"])).to be false
+        expect(board.valid_placement?(submarine, ["B1","D1"])).to be false
+        expect(board.valid_placement?(cruiser, ["A1","A2","A4"])).to be false
+        expect(board.valid_placement?(cruiser, ["A1","B1","D1"])).to be false
+      end
+  
+      it 'will confirm consecutive coordinates placed horizontally or vertically' do
+        board = Board.new
+        cruiser_1 = Ship.new("Cruiser", 3)
+        cruiser_2 = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
+        board.cells
+  
+        expect(board.valid_placement?(cruiser_1,["A1","A2","A3"])).to be true
+        expect(board.valid_placement?(cruiser_2,["A1","B1","C1"])).to be true
+        expect(board.valid_placement?(submarine,["A1","A2"])).to be true
+        expect(board.valid_placement?(submarine,["A1","B1"])).to be true
+      end
+  
+      it 'will not allow diagonal placement' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
+        board.cells
+  
+        expect(board.valid_placement?(cruiser,["A1","B2","C3"])).to be false
+        expect(board.valid_placement?(submarine,["A1","B2"])).to be false
+      end
     end
 
-    it 'will confirm consecutive coordinates regardless of input order' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-      board.cells
+    describe '#overlap_check?' do
+      it 'checks for overlapping ships' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
+  
+        board.place(cruiser, ["A1", "A2", "A3"])
+  
+        expect(board.valid_placement?(submarine, ["A1", "B1"])).to be false
+      end
+    end
+    
+    describe '#unique_coordinates_check?' do
+      it 'checks for unique coordinates' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
 
-      expect(board.valid_placement?(cruiser,["A1","A3","A2"])).to be true
+        expect(board.valid_placement?(cruiser, ["A1", "A1", "A1"])).to be false
+        expect(board.valid_placement?(submarine, ["A1", "A1"])).to be false
+      end
     end
 
-    it 'will not allow for coordinates that are not consecutive' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-      submarine = Ship.new("Submarine", 2)
-      board.cells
+    describe 'valid_coordinates_check?' do
+      it 'checks for valid coordinates' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
 
-      expect(board.valid_placement?(submarine, ["B1","B3"])).to be false
-      expect(board.valid_placement?(cruiser, ["A1","A2","A4"])).to be false
-    end
-
-    it 'will confirm consecutive coordinates placed horizontally or vertically' do
-      board = Board.new
-      cruiser_1 = Ship.new("Cruiser", 3)
-      cruiser_2 = Ship.new("Cruiser", 3)
-      board.cells
-
-      expect(board.valid_placement?(cruiser_1,["A1","A2","A3"])).to be true
-      expect(board.valid_placement?(cruiser_2,["A1","B1","C1"])).to be true
-    end
-
-    it 'will not allow diagonal placement' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-      board.cells
-
-      expect(board.valid_placement?(cruiser,["A1","B2","C3"])).to be false
+        expect(board.valid_placement?(cruiser, ["A1", "A2", "A22"])).to be false
+        expect(board.valid_placement?(submarine, ["A2", "A22"])).to be false
+      end
     end
   end
 
@@ -122,30 +173,6 @@ describe Board do
       cell_3 = board.cells["A3"]
 
       expect(cell_3.ship == cell_2.ship).to be true
-    end
-
-    it 'checks for overlapping ships' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-      submarine = Ship.new("Submarine", 2)
-
-      board.place(cruiser, ["A1", "A2", "A3"])
-
-      expect(board.valid_placement?(submarine, ["A1", "B1"])).to be false
-    end
-
-    it 'checks for unique coordinates' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-
-      expect(board.valid_placement?(cruiser, ["A1", "A1", "A1"])).to be false
-    end
-
-    it 'checks for valid coordinates' do
-      board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-
-      expect(board.valid_placement?(cruiser, ["A1", "A2", "A22"])).to be false
     end
   end
 
