@@ -21,7 +21,7 @@ class Cell
   end
 
   def fired_upon?
-    fired_upon
+    @fired_upon
   end
 
   def fire_upon
@@ -32,15 +32,15 @@ class Cell
   end
 
   def render(optional = false)
-    if fired_upon == true && ship == nil
+    if fired_upon? == true && ship == nil
       "M"
-    elsif fired_upon == true && ship.sunk?
+    elsif fired_upon? == true && ship.sunk?
       "X"
-    elsif fired_upon == true && empty? == false
+    elsif fired_upon? == true && empty? == false
       "H"
     elsif optional == true && empty? == false
       "S"
-    elsif fired_upon == false
+    elsif fired_upon? == false
       "."
     end
   end
