@@ -41,25 +41,6 @@ class Board
     letters = coordinates.map do |coordinate|
       coordinate.scan(/[a-zA-z]/).join.ord.to_f
     end
-    # numbers_length = numbers.length
-    # letters_length = letters.length
-    # numbers_min = numbers.min
-    # numbers_max = numbers.max
-    # letters_min = letters.min
-    # letters_max = letters.max
-    # numbers_sum_1 = numbers.reduce(0) do |sum, number|
-    #   sum + number
-    # end
-    # numbers_sum_2 = numbers_length*(numbers_min + numbers_max)/2
-    # letters_sum_1 = letters.reduce(0) do |sum, number|
-    #   sum + number
-    # end
-    # letters_sum_2 = letters_length*(letters_min + letters_max)/2
-    # this famous formula proved by Gauss is an equivalency statment that
-    # is only true for a set of consecutive natural numbers
-
-    # Above formula does not work for numbers sets of length 2
-    
     numbers_min = numbers.min - 1
     numbers_max = numbers.max
     letters_min = letters.min - 1
@@ -72,6 +53,8 @@ class Board
       sum + number
     end
     letters_sum_2 = (letters_max*(letters_max + 1) - letters_min*(letters_min + 1))/2
+    # this famous formula proved by Gauss is an equivalency statment that
+    # is only true for a set of consecutive natural numbers
     if letters.uniq.length == 1
       numbers_sum_1 == numbers_sum_2
     elsif numbers.uniq.length == 1
@@ -151,5 +134,4 @@ class Board
       ship.sunk?
     end
   end
-
 end
