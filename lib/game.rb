@@ -134,10 +134,10 @@ class Game
     puts "==============PLAYER BOARD=============="
     puts @player_board.render(true)
     puts ""
-    puts "Enter to proceed"
+    puts "Press enter to continue"
     input = player_1
     until input == ""
-      puts "Hit enter"
+      puts "Press enter to continue"
       input = player_1
     end
   end
@@ -163,10 +163,10 @@ class Game
       end
     end
     puts ""
-    puts "Enter to proceed"
+    puts "Press enter to continue"
     input = player_1
     until input == ""
-      puts "Hit enter"
+      puts "Press enter to continue"
       input = player_1
     end
   end
