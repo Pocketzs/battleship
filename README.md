@@ -8,3 +8,7 @@
 2. Practice algorithmic thinking
 3. Create an Object-Oriented solution to a problem without being given full specifications
 4. Work in a pair, using Pull Requests to collaborate
+
+## How to Play
+This is simple terminal text based game of battle ship.
+   
