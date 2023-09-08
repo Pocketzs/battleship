@@ -10,5 +10,16 @@
 4. Work in a pair, using Pull Requests to collaborate
 
 ## How to Play
-This is simple terminal text based game of battle ship.
+This is simple commandline/terminal text based game of battle ship.
+
+### Setup
+```
+git clone git@github.com:Pocketzs/battleship.git
+```
+
+- Navigate to cloned directory 
+- run the following in the command line
+```
+runner.rb
+```
    
